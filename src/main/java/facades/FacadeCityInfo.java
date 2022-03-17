@@ -2,7 +2,6 @@ package facades;
 
 import dtos.CityInfoDTO;
 import entities.CityInfo;
-import entities.Person;
 import errorhandling.EntityNotFoundException;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -10,11 +9,14 @@ import org.json.JSONObject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -146,12 +148,17 @@ public class FacadeCityInfo {
     }
 
     public List<CityInfoDTO> populateCityInfo() throws IOException, InterruptedException {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://api.dataforsyningen.dk/postnumre")).build();
+        URL url = new URL("https://api.dataforsyningen.dk/postnumre");
+        HttpURLConnection http = (HttpURLConnection)url.openConnection();
+        http.setRequestProperty("Accept", "application/json");
+        http.setRequestProperty("content-type", "application/json; charset=UTF-8");
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        JSONArray jsonArray = new JSONArray(response.body());
+        System.out.println(http.getResponseCode() + " " + http.getResponseMessage());
 
+        String result = getResponse(http.getInputStream());
+        http.disconnect();
+
+        JSONArray jsonArray = new JSONArray(result);
         List<CityInfoDTO> ciDTOs = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject o = (JSONObject) jsonArray.get(i);
@@ -161,5 +168,17 @@ public class FacadeCityInfo {
             ciDTOs.add(new CityInfoDTO(zipCode, city));
         }
         return create(ciDTOs);
+    }
+
+    public String getResponse(InputStream i) throws IOException {
+        String res = "";
+        InputStreamReader in = new InputStreamReader(i, StandardCharsets.UTF_8);
+        BufferedReader br = new BufferedReader(in);
+        String output;
+        while ((output = br.readLine()) != null) {
+            res += (output);
+        }
+
+        return res;
     }
 }
