@@ -1,0 +1,151 @@
+# Create Person 1
+POST http://localhost:8080/ca1_war_exploded/api/person/
+Content-Type: application/json
+
+{
+  "email": "BobbyRaev@mail.dk",
+  "firstName": "Bobby",
+  "lastName": "Raev",
+  "addressDTO": {
+
+    "street": "Skovej",
+    "additionalInfo": "54",
+    "cityInfoDTO": {
+
+      "zipCode": "2500",
+      "city": "Valby"
+    }
+  },
+  "phoneList": [
+    {
+    "number": "1223",
+    "description": "Home"
+  }
+  ],
+  "hobbyDTOList": [
+    {
+      "id": 1
+    }
+  ]
+}
+
+###
+# Create Person 2
+POST http://localhost:8080/ca1_war_exploded/api/person/
+Content-Type: application/json
+
+{
+  "email": "MikkelRaev@mail.dk",
+  "firstName": "Mikkel",
+  "lastName": "Raev",
+  "addressDTO": {
+
+    "street": "Skovej",
+    "additionalInfo": "54",
+    "cityInfoDTO": {
+
+      "zipCode": "2500",
+      "city": "Valby"
+    }
+  },
+  "phoneList": [
+    {
+      "number": "879",
+      "description": "Home"
+    }
+  ],
+  "hobbyDTOList": [
+    {
+      "id": 1
+    }
+  ]
+}
+
+###
+# Get info from person with ID
+GET http://localhost:8080/ca1_war_exploded/api/person/1
+Content-Type: application/json
+
+###
+# Update person with ID
+PUT http://localhost:8080/ca1_war_exploded/api/person/5
+Content-Type: application/json
+
+{
+  "email": "LL@mail.dk",
+  "firstName": "Lasse",
+  "lastName": "Larsen",
+  "addressDTO": {
+
+    "street": "Sallingvej",
+    "additionalInfo": "157",
+    "cityInfoDTO": {
+
+      "zipCode": "3460",
+      "city": "Birkerød"
+    }
+  },
+  "phoneList": [
+    {
+      "number": "2333",
+      "description": "Home"
+    }
+  ],
+  "hobbyDTOList": [
+    {
+      "id": 1
+    },
+    {
+      "id": 3
+    }
+  ]
+}
+
+###
+# Get person with phone number
+GET http://localhost:8080/ca1_war_exploded/api/person/phone/123
+Content-Type: application/json
+
+###
+# Get persons with given hobby
+GET http://localhost:8080/ca1_war_exploded/api/person/hobby/40
+Content-Type: application/json
+
+###
+# Get persons with zipcode
+GET http://localhost:8080/ca1_war_exploded/api/person/zipcode/2500
+Content-Type: application/json
+
+###
+# Populate CityInfo
+POST http://localhost:8080/ca1_war_exploded/api/cityinfo/populate
+Content-Type: application/json
+
+###
+# Get all city infos
+GET http://localhost:8080/ca1_war_exploded/api/cityinfo
+Content-Type: application/json
+
+###
+# Populate hobby
+POST http://localhost:8080/ca1_war_exploded/api/hobby/populate
+Content-Type: application/json
+
+###
+# Get all hobbies
+GET http://localhost:8080/ca1_war_exploded/api/hobby
+Content-Type: application/json
+
+#PUT http://localhost:8080/ca1_war_exploded/api/person/removehobbies/20
+#Content-Type: application/json
+
+
+###
+# add new hobby to database
+POST http://localhost:8080/ca1_war_exploded/api/hobby
+Content-Type: application/json
+
+{
+  "name": "Coin Collector",
+  "description": "Give me all your gold."
+}
