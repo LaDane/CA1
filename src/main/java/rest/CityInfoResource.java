@@ -45,7 +45,7 @@ public class CityInfoResource {
     }
 
     @Path("populate")
-    @POST
+    @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Response populateCityInfo() throws APIException {
         // TODO: Check if CityInfo table is empty before populating

@@ -48,7 +48,7 @@ public class HobbyResource {
     }
 
     @Path("populate")
-    @POST
+    @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Response populateHobby() {
         List<HobbyDTO> hobbyDTOList = FACADE.populateHobby();
